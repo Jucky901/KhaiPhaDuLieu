@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import streamlit as st
 class KMeans:
     def __init__(self, k=3, max_iters=500, tolerance=1e-4):
         self.k = k
@@ -51,21 +52,34 @@ class KMeans:
         return self.assign_clusters(distances)
 
     def plot_clusters(self, X):
-        """ Plot the clusters and centroids """
+        """ Plot the clusters and centroids using Streamlit """
+        import matplotlib.pyplot as plt
+        import streamlit as st
+
         plt.figure(figsize=(10, 6))
         colors = ['r', 'g', 'b', 'c', 'm', 'y']
+
         for i in range(self.k):
             cluster_points = X[self.labels == i]
-            plt.scatter(cluster_points[:, 0], cluster_points[:, 1], color=colors[i % len(colors)], label=f'Cluster {i+1}')
-        
-        plt.scatter(self.centroids[:, 0], self.centroids[:, 1], s=300, c='black', marker='X', label='Centroids')
+            plt.scatter(cluster_points[:, 0], cluster_points[:, 1], 
+                        color=colors[i % len(colors)], label=f'Cluster {i+1}')
+
+        # Plot centroids
+        plt.scatter(self.centroids[:, 0], self.centroids[:, 1], 
+                    s=300, c='black', marker='X', label='Centroids')
+
         plt.title('K-Means Clustering')
         plt.xlabel('x1')
         plt.ylabel('x2')
         plt.legend()
         plt.grid(alpha=0.3)
-        plt.show()
 
+        # Show the plot in Streamlit
+        st.pyplot(plt)
+        plt.clf()  # Clear the plot to prevent overlapping plots in Streamlit
+
+
+# Load dataset
 # Load dataset
 data = pd.read_csv('DataMining/kmeans_data_with_initial_nodes.csv')
 
@@ -77,12 +91,13 @@ k = 3  # Number of clusters
 kmeans = KMeans(k=k)
 kmeans.fit(X)
 
-# Plot the resulting clusters
-
+# Display the clusters in Streamlit
+st.title("K-Means Clustering Visualization")
+kmeans.plot_clusters(X)
 
 # Predict new data points
-new_points = np.array([[5, 5], [10, 10], [3, 15], [7,1]])
+new_points = np.array([[5, 5], [10, 10], [3, 15], [7, 1]])
 predictions = kmeans.predict(new_points)
-print("New Data Points Predictions:", predictions + 1)
 
-kmeans.plot_clusters(X)
+# Display predictions in Streamlit
+st.write("New Data Points Predictions:", predictions + 1)
