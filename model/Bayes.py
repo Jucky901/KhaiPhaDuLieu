@@ -1,6 +1,11 @@
 import pandas as pd
 from collections import defaultdict
 
+
+#   NHÓM 2
+#Trương Quốc Vương - 22110460 - 50%
+#Nguyễn Đức Tín - 22110434 - 50% 
+
 # Load dữ liệu
 def load_data(file_path):
     return pd.read_csv(file_path)

@@ -1,6 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
+#   NHÓM 2
+#Trương Quốc Vương - 22110460 - 50%
+#Nguyễn Đức Tín - 22110434 - 50% 
+
 class KMeans:
     def __init__(self, k=3, max_iters=500, tolerance=1e-4):
         self.k = k

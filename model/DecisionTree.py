@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 
+#   NHÓM 2
+#Trương Quốc Vương - 22110460 - 50%
+#Nguyễn Đức Tín - 22110434 - 50% 
+
 class Node:
     def __init__(self, feature=None, threshold=None, left=None, right=None, value=None):
         self.feature = feature
