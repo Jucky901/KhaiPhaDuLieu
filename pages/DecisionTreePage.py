@@ -7,12 +7,14 @@ import numpy as np
 import graphviz
 
 data = pd.read_csv('DataMining/weather_data.csv')
+
 X = data.drop(columns=['Id', 'play']).values
 y = data['play'].values
+feature_names = data.drop(columns=['Id', 'play']).columns.tolist()
 
 
 for i in range(1,20):
-    model = DecisionTree(max_depth=i)
+    model = DecisionTree(max_depth=i, feature_names=feature_names)
     model.fit(X, y)
     predict = model.predict(X)
     if np.array_equal(y, predict):

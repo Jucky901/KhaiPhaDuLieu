@@ -18,9 +18,10 @@ class Node:
         self.value = value
 
 class DecisionTree:
-    def __init__(self, max_depth=3):
+    def __init__(self, max_depth=3, feature_names=None):
         self.max_depth = max_depth
         self.root = None
+        self.feature_names = feature_names
 
     def fit(self, X, y):
         self.root = self._grow_tree(X, y, depth=0)
@@ -105,13 +106,16 @@ class DecisionTree:
         if node.value is not None:
             tree_str += f"{prefix}Leaf: {node.value}\n"
         else:
-            tree_str += f"{prefix}[Feature {node.feature} == {node.threshold}]\n"
+            # Get the feature name instead of the index
+            feature_name = self.feature_names[node.feature] if self.feature_names else f"Feature {node.feature}"
+            tree_str += f"{prefix}[{feature_name} == {node.threshold}]\n"
             tree_str += self.print_tree(node.left, depth + 1)
             tree_str += self.print_tree(node.right, depth + 1)
 
         return tree_str
+
     def get_tree(self, node=None):
-        """ Return the decision tree as a nested dictionary. """
+        """ Return the decision tree as a nested dictionary with feature names. """
         if node is None:
             node = self.root
 
@@ -120,10 +124,11 @@ class DecisionTree:
             return {"leaf": node.value}
 
         # Decision Node
+        feature_name = self.feature_names[node.feature] if self.feature_names else f"Feature {node.feature}"
         return {
-            "feature": node.feature,
+            "feature": feature_name,
             "threshold": node.threshold,
             "true": self.get_tree(node.left),
             "false": self.get_tree(node.right)
-    }
+        }
 
