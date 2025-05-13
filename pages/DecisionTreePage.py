@@ -17,9 +17,7 @@ for i in range(1,20):
     model = DecisionTree(max_depth=i, feature_names=feature_names)
     model.fit(X, y)
     predict = model.predict(X)
-    if np.array_equal(y, predict):
-        print(f"Max depth is {i}" )
-        break
+
 
 
 st.write("Decision Tree Structure:")
