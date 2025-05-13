@@ -19,7 +19,7 @@ class DecisionTree:
         self.root = self._grow_tree(X, y, depth=0)
 
     def _grow_tree(self, X, y, depth):
-        num_samples, num_features = X.shape
+        num_samples, num_features = X.shape 
         unique_labels = np.unique(y)
 
         # If only one class left or reached max depth, return leaf node
@@ -46,7 +46,7 @@ class DecisionTree:
         num_samples, num_features = X.shape
 
         for feature in range(num_features):
-            unique_values = np.unique(X[:, feature])
+            unique_values = np.unique(X[:, feature]) #[sunny, overcast, rainy]
             for value in unique_values:
                 gain = self._information_gain(X[:, feature], y, value)
                 if gain > best_gain:
@@ -58,7 +58,9 @@ class DecisionTree:
     def _information_gain(self, feature_column, y, value):
         parent_entropy = self._entropy(y)
         left_indices = feature_column == value
+        [1, 2, 8, 9, 11, 15, 18, 20]
         right_indices = feature_column != value
+        [...]
         left_entropy = self._entropy(y[left_indices])
         right_entropy = self._entropy(y[right_indices])
 
@@ -71,6 +73,7 @@ class DecisionTree:
         unique_labels, counts = np.unique(y, return_counts=True)
         probabilities = counts / counts.sum()
         return -np.sum(probabilities * np.log2(probabilities))
+        
 
     def _most_common_label(self, y):
         unique_labels, counts = np.unique(y, return_counts=True)
@@ -124,3 +127,19 @@ class DecisionTree:
             "false": self.get_tree(node.right)
         }
 
+data = pd.read_csv('DataMining/weather_data.csv')
+
+X = data.drop(columns=['Id', 'play']).values
+y = data['play'].values
+feature_names = data.drop(columns=['Id', 'play']).columns.tolist()
+
+
+for i in range(1,20):
+    model = DecisionTree(max_depth=i, feature_names=feature_names)
+    model.fit(X, y)
+    predict = model.predict(X)
+    print(model.print_tree())
+    print(y)
+    print(predict)
+    
+        
