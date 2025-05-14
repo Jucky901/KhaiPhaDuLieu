@@ -13,10 +13,9 @@ y = data['play'].values
 feature_names = data.drop(columns=['Id', 'play']).columns.tolist()
 
 
-for i in range(1,20):
-    model = DecisionTree(max_depth=i, feature_names=feature_names)
-    model.fit(X, y)
-    predict = model.predict(X)
+model = DecisionTree(max_depth=100, feature_names=feature_names)
+model.fit(X, y)
+predict = model.predict(X)
 
 
 
